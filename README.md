@@ -11,7 +11,7 @@ npm install keep-posted
 ```
 
 ## Intended Usage
-Can be imported via CommonJS, AMD and plain <script> tag. Here using CommonJS:
+Can be imported via CommonJS, AMD and plain &lt;scrip&gt; tag. Here using CommonJS:
 ```js
 var sillyModule = function () {
     var keepPosted = requite('keep-posted');
