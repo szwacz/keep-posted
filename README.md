@@ -22,9 +22,9 @@ var sillyModule = function () {
     var somethingDifferentHappened = keepPosted.create();
 
     var doSomething = function () {
-        // Calling keep-posted instance just as function triggers
+        // Calling keep-posted instance as function triggers
         // the event, and allows you to pass as many parameters
-        // as you like.
+        // as you like to listeners.
         somethingHappened(1, 2, 3);
         somethingDifferentHappened();
     };
@@ -32,7 +32,7 @@ var sillyModule = function () {
     return {
         doSomething: doSomething,
         // Anyone who wants to listen to events have to call
-        // subscribe function with a callback.
+        // 'subscribe' function with a callback.
         onSomething: somethingHappened.subscribe,
         onSomethingDifferent: somethingDifferentHappened.subscribe,
     }
