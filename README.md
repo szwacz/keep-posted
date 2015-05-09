@@ -58,10 +58,10 @@ unsubscribe();
 Creates *keep-posted* instance.
 
 **Parameters:**  
-`options` - `object` - with possible fields:  
-* `updateNewSubscribers` - `true` or `false` (default: `false`) - when set to `true` will re-send to every new subscriber most recent event which happened before that subscriber jumped on board (if any event happened before).
-* `onFirstSubscriber` - `function` - will be called when first subscriber registers (e.g. hook for lazy instantiation).
-* `onEveryoneUnsubscribed` - `function` - will be called when all subscribers have unregistered (e.g. hook for destroying what has been constructed with lazy instantiation).
+`options` - object with possible fields:  
+* `updateNewSubscribers` - true|false (default: false) - when set to true will re-send to every new subscriber most recent event which happened before that subscriber jumped on board (if any event happened before).
+* `onFirstSubscriber` - function called when first subscriber registers (e.g. hook for lazy instantiation).
+* `onEveryoneUnsubscribed` - function called when all subscribers have unregistered (e.g. hook for destroying what has been constructed with lazy instantiation).
 
 **Returns:**  
 Fresh instance of *keepPosted*, on which you can call...
