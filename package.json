@@ -1,6 +1,6 @@
 {
   "name": "keep-posted",
-  "description": "Event emitter done functional way",
+  "description": "Event emitting done functional way",
   "version": "1.0.0",
   "author": "Jakub Szwacz <jakub@szwacz.com>",
   "keywords": [
