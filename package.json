@@ -1,0 +1,30 @@
+{
+  "name": "keep-posted",
+  "description": "Event emitter for functional world",
+  "version": "1.0.0",
+  "author": "Jakub Szwacz <jakub@szwacz.com>",
+  "keywords": [
+    "pubsub",
+    "pub/sub",
+    "publish/subscribe",
+    "publish",
+    "subscribe",
+    "eventemitter",
+    "event",
+    "emitter",
+    "signal"
+  ],
+  "devDependencies": {
+    "jasmine": "^2.3.0"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/jasmine JASMINE_CONFIG_PATH=jasmine.json"
+  },
+  "main": "keep-posted.js",
+  "homepage": "https://github.com/szwacz/keep-posted",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/szwacz/keep-posted.git"
+  },
+  "licence": "MIT"
+}
