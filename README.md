@@ -59,7 +59,7 @@ Creates *keep-posted* instance.
 
 **Parameters:**  
 `options` - object with possible fields:  
-* `updateNewSubscribers` - true|false (default: false) - when set to true will re-send to every new subscriber most recent event which happened before that subscriber jumped on board (if any event happened before).
+* `updateNewSubscribers` - (default: false) - when set to true will re-send to every new subscriber most recent event which happened before that subscriber jumped on board (if any event happened before).
 * `onFirstSubscriber` - function called when first subscriber registers (e.g. hook for lazy instantiation).
 * `onEveryoneUnsubscribed` - function called when all subscribers have unregistered (e.g. hook for destroying what has been constructed with lazy instantiation).
 
