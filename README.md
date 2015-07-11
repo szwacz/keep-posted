@@ -1,7 +1,7 @@
 keep-posted
 ===========
 
-Event emitting done functional way. No silly strings to pass around. Only functions.
+Event emitting done the simplest, functional way. No silly strings to pass around. Only functions.
 
 Actually *keep-posted* resembles more [Signal](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations#signals) than [EventEmitter](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations#event-emittertargetdispatcher) pattern but anyway. You can give it a try. For me this little piece of code gets job done faster and in less error-prone fashion than any other, more complicated PubSub/EventEmitter pattern.
 
@@ -27,38 +27,48 @@ var unsubscribe = somethingHappened.subscribe(function (a, b, c) {
 // Pass as many arguments as you like.
 somethingHappened(1, 2, 3);
 
-// Call the function returned to you after attaching 
-// listener to stop listening.
+// Call the function returned to you when you did the subscribe 
+// to stop listening on that event.
 unsubscribe();
 ```
 
-## Usage in modules
+## Intended Usage in Modules
 ```js
-var sillyModule = function () {
+var sillyStoreModule = function () {
     var keepPosted = requite('keep-posted');
+    var store = [];
+    
+    // One keep-posted instance is for only one event type. 
+    // Create more instances if you need to support more event types.
+    var newStuffAdded = keepPosted.create();
+    var storeCapacityReached = keepPosted.create();
 
-    // One instance is for only one event type. Create more
-    // instances if you need to support more event types.
-    var somethingHappened = keepPosted.create();
-    var somethingDifferentHappened = keepPosted.create();
-
-    var doStuff = function () {
-        somethingHappened(1, 2, 3);
-        somethingDifferentHappened();
+    var addStuff = function (stuff) {
+        store.push(stuff);
+        newStuffAdded(stuff);
+        if (store.length > 99) {
+            storeCapacityReached();
+        }
     };
 
     return {
-        doStuff: doStuff,
-        onSomething: somethingHappened.subscribe,
-        onSomethingDifferent: somethingDifferentHappened.subscribe,
+        addStuff: addStuff,
+        onNewStuffAdded: newStuffAdded.subscribe,
+        onStoreFull: storeCapacityReached.subscribe,
     }
 };
 
-var myModule = sillyModule();
-myModule.onSomething(function (a, b, c) {
-    console.log('Something happened with params:', a, b, c);
+var store = sillyStoreModule();
+
+store.onNewStuffAdded(function (stuff) {
+    console.log('New stuff added:', stuff);
 });
-myModule.doStuff();
+
+store.onStoreFull(function () {
+    console.log("Can't store more!");
+});
+
+store.addStuff('abc');
 ```
 
 ## API
@@ -82,7 +92,7 @@ Fresh instance of *keepPosted*, on which you can call...
 Triggers the event.
 
 **Parameters:**  
-`params...` - any number of parameters, passed as payload to all listeners.
+`params...` - any number of parameters which will be passed to all listeners.
 
 
 ### keepPostedInstance.subscribe(callback)
@@ -93,7 +103,7 @@ Registers new subscriber (event listener).
 `callback` - well... you know what it does.
 
 **Returns:**  
-Unsubscribe trigger. A `function` which you can call when don't want to listen to that event anymore.
+Unsubscribe trigger. A `function` which you can call when you don't want to listen to that event anymore.
 
 
 # License
