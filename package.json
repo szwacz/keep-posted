@@ -1,7 +1,7 @@
 {
   "name": "keep-posted",
-  "description": "Event emitting done functional way",
-  "version": "1.0.0",
+  "description": "Event emitting done the simplest functional way",
+  "version": "1.0.1",
   "author": "Jakub Szwacz <jakub@szwacz.com>",
   "keywords": [
     "pubsub",
