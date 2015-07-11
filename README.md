@@ -9,9 +9,30 @@ Actually *keep-posted* resembles more [Signal](https://github.com/millermedeiros
 ```
 npm install keep-posted
 ```
+Or just grap `keep-posted.js` file from this repo (it's UMD).
 
-## Intended Usage
-Can be imported via CommonJS, AMD and plain &lt;scrip&gt; tag. Here using CommonJS:
+## Basic Usage
+```js
+var keepPosted = requite('keep-posted');
+
+// Create an instance
+var somethingHappened = keepPosted.create();
+
+// Attach event listener
+var unsubscribe = somethingHappened.subscribe(function (a, b, c) {
+    console.log('Event!', a, b, c);
+});
+
+// Just call the function to trigger the event.
+// Pass as many arguments as you like.
+somethingHappened(1, 2, 3);
+
+// Call the function returned to you after attaching 
+// listener to stop listening.
+unsubscribe();
+```
+
+## Usage in modules
 ```js
 var sillyModule = function () {
     var keepPosted = requite('keep-posted');
@@ -21,18 +42,13 @@ var sillyModule = function () {
     var somethingHappened = keepPosted.create();
     var somethingDifferentHappened = keepPosted.create();
 
-    var doSomething = function () {
-        // Calling keep-posted instance as function triggers
-        // the event, and allows you to pass as many parameters
-        // as you like to listeners.
+    var doStuff = function () {
         somethingHappened(1, 2, 3);
         somethingDifferentHappened();
     };
 
     return {
-        doSomething: doSomething,
-        // Anyone who wants to listen to events have to call
-        // 'subscribe' function with a callback.
+        doStuff: doStuff,
         onSomething: somethingHappened.subscribe,
         onSomethingDifferent: somethingDifferentHappened.subscribe,
     }
@@ -42,13 +58,7 @@ var myModule = sillyModule();
 myModule.onSomething(function (a, b, c) {
     console.log('Something happened with params:', a, b, c);
 });
-var unsubscribe = myModule.onSomethingDifferent(function () {
-    console.log('Something different happened!');
-});
-myModule.doSomething();
-
-// Don't want to listen anymore to 'onSomethingDifferent'.
-unsubscribe();
+myModule.doStuff();
 ```
 
 ## API
