@@ -13,7 +13,7 @@
 
         options = options || {};
         var listeners = [];
-        var mostRecentFiredArguments;
+        var mostRecentFiredArguments = [];
 
         var keepPosted = function () {
             mostRecentFiredArguments = arguments;
