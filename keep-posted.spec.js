@@ -57,24 +57,6 @@ describe('keepPosted', function () {
         }).not.toThrow();
     });
 
-    it("can resend last message to new subscribers", function (done) {
-        var count = 0;
-        var kp = keepPosted.create({
-            updateNewSubscribers: true
-        });
-        kp(1, 2, 3, 4);
-
-        // The call shoult be asynchronous. So here should be zero.
-        expect(count).toBe(0);
-
-        kp.subscribe(function () {
-            count += 1;
-            var args = Array.prototype.slice.call(arguments);
-            expect(args).toEqual([1, 2, 3, 4]);
-            done();
-        });
-    });
-
     it("has onFirstSubscriber hook", function () {
         var count = 0;
         var kp = keepPosted.create({
@@ -102,6 +84,31 @@ describe('keepPosted', function () {
         expect(count).toBe(0);
         unsubscribe2();
         expect(count).toBe(1);
+    });
+
+    describe("refire last message to new subscribers", function () {
+
+        it("refires anyway with undefined if no event was fired yet", function () {
+            var kp = keepPosted.create();
+            kp.subscribe({
+                refireMostRecent: true
+            }, function (value) {
+                expect(value).toBe(undefined);
+            });
+        });
+
+        it("refires", function () {
+            var kp = keepPosted.create();
+            kp(1, 2, 3, 4);
+
+            kp.subscribe({
+                refireMostRecent: true
+            }, function () {
+                var args = Array.prototype.slice.call(arguments);
+                expect(args).toEqual([1, 2, 3, 4]);
+            });
+        });
+
     });
 
 });

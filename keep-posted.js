@@ -8,21 +8,26 @@
     }
 }(this, function () {
     'use strict';
-    
+
     var create = function (options) {
 
         options = options || {};
         var listeners = [];
-        var mostRecentStuffToSend;
+        var mostRecentFiredArguments;
 
         var keepPosted = function () {
-            mostRecentStuffToSend = arguments;
+            mostRecentFiredArguments = arguments;
             listeners.forEach(function (callback) {
-                callback.apply(null, mostRecentStuffToSend);
+                callback.apply(null, mostRecentFiredArguments);
             });
         };
 
-        keepPosted.subscribe = function (callback) {
+        keepPosted.subscribe = function (subscriberOptions, callback) {
+
+            if (typeof subscriberOptions === 'function') {
+                callback = subscriberOptions;
+                subscriberOptions = {};
+            }
 
             listeners.push(callback);
 
@@ -30,8 +35,8 @@
                 options.onFirstSubscriber();
             }
 
-            if (options.updateNewSubscribers && mostRecentStuffToSend) {
-                callback.apply(null, mostRecentStuffToSend);
+            if (subscriberOptions.refireMostRecent) {
+                callback.apply(null, mostRecentFiredArguments);
             }
 
             var unsubscribe = function () {
