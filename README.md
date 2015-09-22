@@ -102,6 +102,7 @@ Registers new subscriber (event listener).
 **Parameters:**  
 `options` - (optional) lets you pass config object for this listener. Possible keys:
 * `refireMostRecent` - (default: false) - when set to true will re-send to this new subscriber most recent event which happened before this subscriber jumped on board (if no even happened before still will fire with `undefined`).
+
 `callback` - well... you know what it does.
 
 **Returns:**  
