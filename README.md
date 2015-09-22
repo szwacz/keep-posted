@@ -27,7 +27,7 @@ var unsubscribe = somethingHappened.subscribe(function (a, b, c) {
 // Pass as many arguments as you like.
 somethingHappened(1, 2, 3);
 
-// Call the function returned to you when you did the subscribe 
+// Call the function returned to you when you did the subscribe
 // to stop listening on that event.
 unsubscribe();
 ```
@@ -37,16 +37,17 @@ unsubscribe();
 var sillyStoreModule = function () {
     var keepPosted = requite('keep-posted');
     var store = [];
-    
-    // One keep-posted instance is for only one event type. 
+
+    // One keep-posted instance is for only one event type.
     // Create more instances if you need to support more event types.
     var newStuffAdded = keepPosted.create();
     var storeCapacityReached = keepPosted.create();
 
     var addStuff = function (stuff) {
-        store.push(stuff);
-        newStuffAdded(stuff);
-        if (store.length > 99) {
+        if (store.length < 99) {
+            store.push(stuff);
+            newStuffAdded(stuff);
+        } else {
             storeCapacityReached();
         }
     };
@@ -79,7 +80,6 @@ Creates *keep-posted* instance.
 
 **Parameters:**  
 `options` - object with possible fields:  
-* `updateNewSubscribers` - (default: false) - when set to true will re-send to every new subscriber most recent event which happened before that subscriber jumped on board (if any event happened before).
 * `onFirstSubscriber` - function called when first subscriber registers (e.g. hook for lazy instantiation).
 * `onEveryoneUnsubscribed` - function called when all subscribers have unregistered (e.g. hook for destroying what has been constructed with lazy instantiation).
 
@@ -95,11 +95,13 @@ Triggers the event.
 `params...` - any number of parameters which will be passed to all listeners.
 
 
-### keepPostedInstance.subscribe(callback)
+### keepPostedInstance.subscribe([options], callback)
 
 Registers new subscriber (event listener).
 
 **Parameters:**  
+`options` - (optional) lets you pass config object for this listener. Possible keys:
+* `refireMostRecent` - (default: false) - when set to true will re-send to this new subscriber most recent event which happened before this subscriber jumped on board (if no even happened before still will fire with `undefined`).
 `callback` - well... you know what it does.
 
 **Returns:**  
