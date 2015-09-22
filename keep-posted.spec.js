@@ -88,16 +88,17 @@ describe('keepPosted', function () {
 
     describe("refire last message to new subscribers", function () {
 
-        it("refires anyway with undefined if no event was fired yet", function () {
+        it("refires anyway with undefined if no event was fired yet", function (done) {
             var kp = keepPosted.create();
             kp.subscribe({
                 refireMostRecent: true
             }, function (value) {
                 expect(value).toBe(undefined);
+                done();
             });
         });
 
-        it("refires", function () {
+        it("refires", function (done) {
             var kp = keepPosted.create();
             kp(1, 2, 3, 4);
 
@@ -106,6 +107,7 @@ describe('keepPosted', function () {
             }, function () {
                 var args = Array.prototype.slice.call(arguments);
                 expect(args).toEqual([1, 2, 3, 4]);
+                done();
             });
         });
 
