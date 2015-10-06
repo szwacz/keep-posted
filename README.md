@@ -35,7 +35,7 @@ unsubscribe();
 ## Intended Usage in Modules
 ```js
 var sillyStoreModule = function () {
-    var keepPosted = requite('keep-posted');
+    var keepPosted = require('keep-posted');
     var store = [];
 
     // One keep-posted instance is for only one event type.
